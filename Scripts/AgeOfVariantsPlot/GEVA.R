@@ -1,3 +1,8 @@
+#S'ha d'executar a andromeda després s'haver executat globalFunctions.R per poder accedir a les dades necessàries
+#S'obtenen les edats estimades de GEVA
+###S'especifica una regió i s'obté un gràfic on es representa, per totes les poblacions que tinguin al menys una variant amb iSAFE significatiu a la regió, un boxplot amb l'edat estimada de les variants amb iSAFE no significatiu vs. les que tenen iSAFE significatiu
+#Dins de les variants amb iSAFE significatiu, s'escullen les 15 amb iSAFE superior i es descarten la resta. Aquest número es pot canviar (p. ex.: 5). 
+#Compara la distribució d'edats de les variants significatives de les poblacions d'una metapoblació amb un test de Kruskal-Wallis i en representa el p-valor.
 
 
 ###Gràfic per plotejar una regió concreta on es mira si l'edat estimada de les variants amb iSAFE significatiu és coherent entre les poblacions d'una metapoblació AMB KRUSKAL-WILLIS i LEVENE
@@ -77,9 +82,8 @@ diferencia_edats <- function(chrom, inici, final, pop_color = popPal,
     #Faig això per tenir a pop_color només les poblacions que es representaran, i ordenades per metapoblació
     pops <- unique(merged_temp %>% arrange(metapop) %>% pull(pop))
     pop_color <- pop_color[pops]
-    #Faig el gràfic. onvertir la x en factor després d'ordenar per pop i per metapop serveix per tenir les poblacions ordenades per metapoblació
+    #Faig el gràfic. Convertir la x en factor després d'ordenar per pop i per metapop serveix per tenir les poblacions ordenades per metapoblació
     #i per la representació de geom_signif, perquè tenim la primer i última població de cada metapop alfabèticament
-    #print(merged_temp %>% filter(grup == 'Significant') %>% group_by(pop) %>% summarise(n = n(), .groups = 'keep'))
     options(repr.plot.width = 20, repr.plot.height = 10, warn = 1)
     grafic <- merged_temp %>% arrange(pop) %>% arrange(metapop) %>%
         ggplot(mapping = aes(x=factor(pop, levels=unique(pop)), y=AgeMode_Jnt/1000, fill=pop, color = grup, alpha = grup, by = metapop)) +
