@@ -80,12 +80,12 @@ sqlToDf <- function(chr, coordStart, coordEnd, dbName){
 
 # Get isafe + geva at once
 getInfoRegion <- function(region){
-  regionSep <- strsplit(region, ":")[[1]]
-  CC <- as.numeric(regionSep[1])
-  SS <- as.numeric(strsplit(regionSep[2], "-")[[1]][1])
-  EE <- as.numeric(strsplit(regionSep[2], "-")[[1]][2])
-  isafeData <- sqlToDf(CC, SS, EE, 'isafe')
-  gevaData <- sqlToDf (CC, SS, EE, 'geva')
-  #Faig inner_join perquè les variants han d'estar necessàriament a les dues taules
-  return(dplyr::inner_join(isafeData, gevaData, by = 'rsid')) 
+	regionSep <- strsplit(region, ":")[[1]]
+	CC <- as.numeric(regionSep[1])
+	SS <- as.numeric(strsplit(regionSep[2], "-")[[1]][1])
+	EE <- as.numeric(strsplit(regionSep[2], "-")[[1]][2])
+	isafeData <- sqlToDf(CC, SS, EE, 'isafe')
+  	gevaData <- sqlToDf (CC, SS, EE, 'geva')
+ 	#Faig inner_join perquè les variants han d'estar necessàriament a les dues taules
+	return(dplyr::inner_join(isafeData, gevaData, by = 'rsid')) 
 }
