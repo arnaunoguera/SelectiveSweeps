@@ -93,3 +93,6 @@ diferencia_edats <- function(chrom, inici, final, pop_color = popPal,
         geom_signif(comparisons = comparisons_list, annotations = annotations_vector, textsize = 7, color = 'black', alpha = 1) + theme(text = element_text(size = 20))
     return(grafic)
 }
+
+##Exemple d'ús de la funció
+diferencia_edats(2, 72494272, 72676317, AMR = FALSE) #EXOC6B
