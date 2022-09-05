@@ -7,7 +7,6 @@
 
 ###Gràfic per plotejar una regió concreta on es mira si l'edat estimada de les variants amb iSAFE significatiu és coherent entre les poblacions d'una metapoblació AMB KRUSKAL-WILLIS i LEVENE
 
-#S'han d'introduir també les taules atlas i isafe
 diferencia_edats <- function(chrom, inici, final, pop_color = popPal, 
                              AFR = AFRpops, EAS = EASpops, EUR = EURpops, SAS = SASpops, AMR = TRUE) {
     library(ggsignif)
