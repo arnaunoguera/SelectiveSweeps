@@ -1,9 +1,9 @@
-####Gràfic de les edats estimades de variants amb iSAFE significatiu vs no significatiu amb edats de Relate
-#Fan falta els fitxers de les edats de Relate (el path està al meu usuari del servidor) i accedir a les taules del servidor
+####Gràfic de les edats estimades de variants amb iSAFE significatiu vs no significatiu amb edats de Relate per les regions de PopHumanScan indicades
+#Fan falta els fitxers de les edats de Relate (el path està al meu usuari del servidor) i accedir a les taules del servidor i a la taula de PopHumanScan
 #S'introdueixen els inicis i finals com a dos vectors, de forma que el primer valor d'inicis es correspon al primer de finals;
 #i length(inicis)=length(finals). El vector de cromosomes no ha de ser de la mateixa longitud: un cop per chr és suficient. 
 #Es considera significant un valor d'iSAFE > 0.1
-age_isafe_plot <- function(chrom = NA, inicis = NA, finals = NA, PHS = phs, pop_color = popPal,
+age_isafe_plot <- function(chrom = NA, inicis = NA, finals = NA, PHS, pop_color = popPal,
                                AFR = AFRpops, EAS = EASpops, EUR = EURpops, SAS = SASpops, AMR = TRUE) {
     #Miro si s'han introduit inicis/finals concrets o si serà per tots
     if (all(!is.na(chrom))) {
@@ -84,3 +84,6 @@ age_isafe_plot <- function(chrom = NA, inicis = NA, finals = NA, PHS = phs, pop_
     #Si enlloc de facet_wrap es fa facet_grid, posant l'argument space='free', la mida de cada gràfic s'ajusta automàticament. S'ha de treure l'argument nrow
     return(grafic)
 }
+
+#Exemple d'us:
+age_isafe_plot(5, PHS = PopHumanScan, AMR = FALSE) #Representa totes les regions que es pugui de PHS del cromosoma 5
