@@ -158,7 +158,7 @@ metapop_genelist <- function(resultats_filtrats) {
     for (n in 2:length(vect)) {
         interval <- paste(vect[n-1], vect[n], sep ='-')
         for (metapop in c('AFR', 'EUR', 'EAS', 'SAS', 'AMR')) {
-            taula_temp <- resultats_filtrats %>% filter(METAPOP == metapop & age_median >= vect[n-3] & age_median < vect[n])
+            taula_temp <- resultats_filtrats %>% filter(METAPOP == metapop & age_median >= vect[n-1] & age_median < vect[n])
             if (nrow(taula_temp) != 0) {
                 llista[[paste(metapop, interval, sep=':')]] <- taula_temp$REGION
             }
