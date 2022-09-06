@@ -149,50 +149,71 @@ resultat %>% filter(!is.na(CAUSE)) %>% ggplot(mapping = aes(y = CAUSE, fill = CA
 ############### Obtenció de les regions de cada rang ####################
 #########################################################################
 
-#Aquesta funció obté, a partir de la taula de resultats filtrats, una llista amb les regions seleccionades en cada interval determinat 
+#Aquesta funció obté, a partir de la taula de resultats filtrats, una taula amb les regions seleccionades en cada interval determinat 
 #No fa falta assegurar que les regions no solapin entre poblacions perquè gprofiler ja agafa cada gen un sol cop
-#Intervals de 1000 però es pot canviar. Arribo fins 70.000 generacions perquè més enrera ja hi ha resultats molt dispersos 
+#Es fa amb intervals de 1000 fins a 700000 perquè a partir d'allà, ja no hi ha regions prou condensades en cap interval com per trobar resultats interessants
 metapop_genelist <- function(resultats_filtrats) {
     vect = c(0:70) * 1000 #Arribo fins a 70000 en intervals de 1000
-    llista <- list()
+    vector_ages <- vector()
     for (n in 2:length(vect)) {
-        interval <- paste(vect[n-1], vect[n], sep ='-')
         for (metapop in c('AFR', 'EUR', 'EAS', 'SAS', 'AMR')) {
-            taula_temp <- resultats_filtrats %>% filter(METAPOP == metapop & age_median >= vect[n-1] & age_median < vect[n])
-            if (nrow(taula_temp) != 0) {
-                llista[[paste(metapop, interval, sep=':')]] <- taula_temp$REGION
-            }
-        }
+            vector_ages <- append(vector_ages, paste0(metapop, ':', vect[n-1], '-', vect[n]))
+        } #A vector_ages hi ha tots els intervals possibles
     }
-    return(llista)
+    taula <- data.table(Interval = vector_ages, Regions = as.character(NA), Genes = as.character(NA)) %>% #Creo la taula on s'afegirà tot
+        separate(Interval, sep = ':', into = c('Metapop', 'Interval'))
+    for (n in 1:nrow(taula)) {
+        metapop <- taula$Metapop[n]
+        age_min <- as.numeric(unlist(strsplit(taula$Interval[n], '-'))[1])
+        age_max <- as.numeric(unlist(strsplit(taula$Interval[n], '-'))[2])
+        resultats_temp <- resultats_filtrats %>% filter(METAPOP == metapop & age_median >= age_min & age_median < age_max)
+        if (nrow(resultats_temp) == 0) {
+            next
+        }
+        taula[n,'Regions'] <- paste(resultats_temp$REGION, collapse =',')
+    }
+    return(taula %>% filter(!is.na(Regions)) %>% separate_rows(Regions, sep=',')) #Serveix per tenir una entrada per regió detectada 
 }
+genes_table <- metapop_genelist(resultats_filtrats) #Creo la taula a partir dels resultats
 
-#Obtinc la llista de regions en cada interval de temps/metapop
-regions_list <- metapop_genelist(resultats_filtrats)
 
 
 #########################################################################
 ######################## GO amb gprofiler2 ##############################
 #########################################################################
 
-library(gprofiler2) #Aquest paquet només em funcionava des de la terminal, no des de JupyterNotebook
+library(gprofiler2) #Aquests paquets només em funcionaven des de la terminal, no des de JupyterNotebook
+library(biomaRt)
 
-#Primer s'han de convertir totes aquestes regions a la llista de gens 
 #He d'aconseguir la llista de gens, i no de regions, perquè gprofiler treballa amb GRCh38 i les regions són amb el 37 (hg19)
 #Executar a la terminal, perque es on tinc biomaRt
 ensembl <- useEnsembl(biomart = 'genes', dataset = 'hsapiens_gene_ensembl', version = 'GRCh37') #Així accedeixo a la versió de hg19
 print('Connected to Ensembl')
-genesid_list <- list()
-for (grup in names(genes_list)) {
-    vect <- c()
-    for (region in genes_list[[grup]]) {
-        vals <- unlist(strsplit(region, ':'))
-        chr <- vals[1]
-        inici <- vals[2]
-        final <- vals[3]
-        gens <- getBM(attributes = 'ensembl_gene_id', filters =  c('chromosome_name', 'start', 'end'), values = list(chr, inici, final), mart = ensembl) %>% pull(ensembl_gene_id)
-        vect <- append(vect, gens)
-    }
-    genesid_list[[grup]] <- unique(vect)
-    print(grup)
+for (n in 1:nrow(genes_table)) {
+    vals <- unlist(strsplit(genes_table$Regions[n], ':'))
+    chr <- vals[1]
+    inici <- vals[2]
+    final <- vals[3]
+    gens <- getBM(attributes = 'ensembl_gene_id', filters =  c('chromosome_name', 'start', 'end'), values = list(chr, inici, final), mart = ensembl) %>% pull(ensembl_gene_id)
+    genes_table[n,"Genes"] <- paste(gens, collapse=',') #Amb cada iteració, obtinc els gens d'una de les regions i es col·loquen a la columna Genes de la taula
+    #Els gens d'una regió s'obtenen com a str on cada gen es separa per una coma
+    print(n)
 }
+#Elimino les files que no tenen cap gen a la regió. Aquesta taula s'ha de guardar per poder situar després els gens en les regions
+genes_table <- genes_table %>% filter(Genes != '')
+#Ara ajunto tots els IDs de gens d'un mateix interval/població per poder fer el Gene Ontology
+#Guardo genes_table per poder mirar després si tots els gens d'un resultat sortien de la mateixa regió
+GO_table <- genes_table %>% group_by(Metapop, Interval) %>% summarise(Gene_ids = paste(Genes, collapse = ','))
+
+#Faig l'anàlisi de Gene Ontology població per població (si no, es sobrecarrega gprofiler2)  
+for (metapop in c('AFR', 'EAS', 'EUR', 'SAS', 'AMR')) {
+    #Obtinc una llista on cada nom és un interval i l'element és un vector amb tots els Gene IDs d'aquell interval
+    llista <- as.list(GO_table %>% filter(Metapop == metapop) %>% pull(Gene_ids) %>% strsplit(',')) 
+    names(llista) <- GO_table %>% filter(Metapop == metapop) %>% pull(Interval)
+    #Guardo els resultats de l'anàlisi (el path és al meu usuari)
+    fwrite(x = gost(llista, organism='hsapiens', evcodes= TRUE)[['result']],
+           file = paste0("/home/anoguera/Data/resultatsGO_regions_ihs/", metapop, "1000top5.csv"))
+    print(metapop)
+    rm(llista)
+}
+
