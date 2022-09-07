@@ -1,12 +1,12 @@
 #S'ha d'executar a andromeda després s'haver executat globalFunctions.R per poder accedir a les dades necessàries
 #També es necessiten els fitxers amb les edats de Relate. El path del codi està al meu usuari del servidor
 ###S'especifica una regió i s'obté un gràfic on es representa, per totes les poblacions que tinguin al menys una variant amb iSAFE significatiu a la regió, un boxplot amb l'edat estimada de les variants amb iSAFE no significatiu vs. les que tenen iSAFE significatiu
-#Dins de les variants amb iSAFE significatiu, s'escullen les 15 amb iSAFE superior i es descarten la resta. Aquest número es pot canviar (p. ex.: 5). 
+#Dins de les variants amb iSAFE significatiu, s'escullen les 15 amb iSAFE superior i es descarten la resta. Aquest número es pot canviar (p. ex.: 5) a nvar. 
 #Compara la distribució d'edats de les variants significatives de les poblacions d'una metapoblació amb un test de Kruskal-Wallis i en representa el p-valor.
 
 
 diferencia_edats <- function(chr, inici, final, pop_color = popPal, 
-                             AFR = AFRpops, EAS = EASpops, EUR = EURpops, SAS = SASpops, AMR = TRUE) {
+                             AFR = AFRpops, EAS = EASpops, EUR = EURpops, SAS = SASpops, AMR = TRUE, nvar = 15) {
     library(ggsignif)
     #Obtinc la regió necessària de la taula isafe
     isafe <- sqlToDf(chr, inici, final, 'isafe')
@@ -37,7 +37,7 @@ diferencia_edats <- function(chr, inici, final, pop_color = popPal,
     merged <- merge(isafe, allele_ages, by.x = c('physicalPos', 'pop'), by.y = c('BP', 'pop'))
     #Una vegada fet el merge, em quedo amb les 15 variants més significatives per iSAFE (no ho faig abans perquè potser perdríem les variants significatives per no estar a la taula d'edats)
     #Creo una taula on hi hagi les files corresponents als 15 valors significatius d'iSAFE més alts en cada població. SI n'hi ha menys de 15, es guarden els que hi hagi. Si hi ha empats, se'n queda > 15
-    isafe15 <- merged %>% select(grup, pop, isafe, rsid_pop) %>% filter(grup == 'Significant') %>% group_by(pop) %>% slice_max(isafe, n=15)
+    isafe15 <- merged %>% select(grup, pop, isafe, rsid_pop) %>% filter(grup == 'Significant') %>% group_by(pop) %>% slice_max(isafe, n=nvar)
     #Ara de la taula principal, elimino les files que siguin significants  no estiguin a isafe15 
     merged <- merged %>% filter(grup == 'Nonsignificant' | rsid_pop %in% isafe15$rsid_pop)
     #En cas que no hi hagi cap variant significativa en tota la població després de tot, diem que no es pot representar la població
