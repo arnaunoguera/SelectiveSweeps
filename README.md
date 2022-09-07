@@ -2,7 +2,7 @@
 Recopilació del codi de les pràctiques curriculars per descriure els sweeps selectius en la història evolutiva de l'espècie humana
 
 # Mapa del repositori
-Tots els codis estan dins de la carpeta Scripts
+Tots els codis estan dins de la carpeta Scripts. Cal destacar que molts dels codis s'han d'executar dins del servidor d'andromeda, i que contenen paths a arxius que estan a la carpeta del meu usuari del servidor. Tots els codis estan comentats quan hi ha un path a un arxiu del meu usuari, i caldria executar el codi des d'allà o bé modificar-lo lleugerament per obrir els arxius necessaris des d'alguna altra ubicació. També s'ha de poder accedir a la base de dades d'SQL del servidor, on hi ha les taules necessàries amb informació de les variants. 
 
 ## globalFunctions.R
 Un arxiu de codi que es necessita executar per poder funcionar la majoria de codis restants. Es crida a la majoria de paquets d'R que s'utilitzen en tots els anàlisis, i es creen alguns arxius amb informació de les poblacions i les metapoblacions del 1000 Genomes Project. També es defineixen funcions per poder accedir a les taules d'SQL del servidor amb informació d'iSAFE, GEVA, etc. 
@@ -36,4 +36,9 @@ Exemple amb el cromosoma 19:
 Hi ha el codi per tot l'anàlisi efectuat a partir de les regions de PopHumanScan. De totes les variants de les taules, és la que compara les poblacions d'una metapoblació amb Kruskal-Wallis (després de fer test de Levene per demostrar que les variàncies són homogènies), per tal de comprovar que hi ha una distribució uniforme de les edats de les variants amb iSAFE significatiu entre poblacions, i així calcular l'edat estimada del sweep selectiu per cada regió si és possible. 
 També hi ha el codi per les diverses representacions, així com per l'anàlisi de Gene Ontology, tot i que l'anàlisi de Gene Ontology més complert és el que es fa per les regions de l'article d'iHS (Johnson and Voight, 2018). 
 
+## ihsRegionsAnalysis
+### - Taula_Grafics_GeneOntology.R
+
+S'efectua un anàlisi molt similar al de les regions de PopHumanScan, però partint de les regions descrites en l'article de Johnson i Voight (2018). Alguns processos són lleugerament diferents, ja que en aquest cas, les regions candidates de selecció natural s'han identificat per a una població determinada, i per tant no té sentit fer comparacions entre les diferents poblacions. La distribució i la generació de les taules és relativament diferent, però l'anàlisi en sí és anàleg. 
+Per cada regió, s'utilitzen les 5 variants amb iSAFE més elevat per estimar l'edat de l'esdeveniment de selecció, i es classifiquen les regions en intervals de 1000 generacions per fer l'anàlisi de Gene Ontology. Es filtren els resultats de Gene Ontology causats per clusters de gens amb funcions relacionades en una mateixa regió, que són la majoria, per obtenir resultats causats per gens independents.
 
