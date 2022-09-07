@@ -217,3 +217,79 @@ for (metapop in c('AFR', 'EAS', 'EUR', 'SAS', 'AMR')) {
     rm(llista)
 }
 
+#########################################################################
+###################### Filtre dels resultats ############################
+#########################################################################
+
+#S'hauran guardat els resultats per a les 5 metapoblacions (paths al meu usuari)
+GOresultAFR <- fread("/home/anoguera/Data/resultatsGO_regions_ihs/AFR1000top5.csv")
+GOresultEUR <- fread("/home/anoguera/Data/resultatsGO_regions_ihs/EUR1000top5.csv")
+GOresultEAS <- fread("/home/anoguera/Data/resultatsGO_regions_ihs/EAS1000top5.csv")
+GOresultSAS <- fread("/home/anoguera/Data/resultatsGO_regions_ihs/SAS1000top5.csv")
+GOresultAMR <- fread("/home/anoguera/Data/resultatsGO_regions_ihs/AMR1000top5.csv")
+
+#També és necessari tenir genes_table per saber de quines regions s'ha tret cada gen
+
+#Ara falta eliminar els resultats on tots els gens provinguin d'un cluster (faré que el límit sigui que la meitat dels gens estiguin en regions repetides)
+GOfilter <- function(GOresult, genes_table, metapop) {
+    GOresult <- GOresult %>% mutate(keep = FALSE, num_regions = as.numeric(NA)) #Afegeixo una columna que decidirà si es manté o no el resultat (TRUE o FALSE)
+    #I una altra columna on comptar en quantes regions diferents es troben els gens
+    genes_table <- genes_table %>% filter(Metapop == metapop) #Només em fixo en les regions que s'hagin detectat per aquella metapoblació
+    #Iterem per cadascun dels resultats de GO
+    for (n in 1:nrow(GOresult)) {
+        num <- GOresult$intersection_size[n] #nombre dels gens del resultat
+        genes <- unlist(strsplit(GOresult$intersection[n], ',')) #vector dels gens del resultat
+        regions <- vector() #un vector on guardaré el rang de totes les regions on hi hagi algun dels gens del resultat en qüestió
+        age <- GOresult$query[n] #Només ens hem de fixar en les regions d'aquell interval que continguin el gen
+        genes_table_temp <- genes_table %>% filter(Interval == age) #Em quedo amb les regions detectades per l'interval de temps determinat
+        for (gene in genes) {
+            regions <- append(regions, grep(x = genes_table_temp$Genes, pattern = gene)) #Busco les regions on s'hagi detectat el gen d'aquella època
+        }
+        GOresult[n, 'num_regions'] <- length(unique(regions)) #Miro de quantes regions s'ha tret realment aquell llistat de gens
+        if (length(unique(regions)) > num/2) { #El nombre de regions ha de ser major a la meitat dels gens per considerar que s'ha de mantenir el resultat
+            #S'ha de tenir en compte que es consideren com a regions diferents dues regions iguals o solapants del genoma que s'hagin detectat independentment en dues poblacions en la taula original (i que la selecció s'hagi datat en el mateix interval)
+            #No ho considero un problema perquè significa que s'ha detectat la mateixa senyal per a la mateixa regió dues o més vegades
+            GOresult[n, 'keep'] <- TRUE
+        }
+    }
+    return(GOresult)
+}
+
+
+#########################################################################
+#################### Representació en Heat Maps #########################
+#########################################################################
+
+#Funció per representar els resultats de GO en heat maps
+GOHeatMap <- function(GOresult, metapop, color, p_val, height, width = 30, taula_gens = genes_table) {
+    #Introduir els resultats, la metapoblació corresponent i el seu color, el p_valor màxim, la mida de la imatge desitjada i la taula de gens/regions
+    #Això serveix per generar tots els intervals possibles i que quedin ordenats a l'eix de les x (per ordre, no alfabèticament)
+    intervals <- c(0:100) * 1000
+    llistat <- c()
+    for (n in 2:length(intervals)) {
+        llistat[n-1] <- paste(intervals[n-1], intervals[n], sep = '-') #Els as.integer són per evitar la notació científica al número 100.000
+    }
+    #Filtro el resultat de la metapoblació corresponent, i em quedo amb els resultats TRUE i que tinguin un p_valor menor a l'indicat 
+    GOresult1000 <- GOfilter(GOresult, taula_gens, metapop) %>% filter(keep == TRUE & p_value <= p_val) %>% select(query, p_value, intersection_size, term_name) %>% 
+    unique(by = c('term_name', 'query')) #Faig el distinct perquè, en un cas, hi ha un term (allograff_rejection) que es comparteix en varies fonts i hi ha repetició
+    #Em quedo amb els intervals (ordenats) on s'hagi detectat algo
+    llistat <- llistat[llistat %in% GOresult1000$query]
+    #Represento el gràfic
+    options(repr.plot.width = width, repr.plot.height = height, warn = 1)
+    HeatMap <- GOresult1000 %>% ggplot(aes(x = query, y = term_name)) + geom_tile(aes(fill = log10(p_value))) + 
+    geom_text(aes(label = intersection_size)) +
+    scale_fill_gradient(low = color, high = "white") +
+    theme(text = element_text(size = 23), axis.text.x = element_text(angle = 90)) + 
+    labs(x='Selective sweep (generations ago)', y='', title = paste0('Functional enrichment analysis results (', metapop, ')'), fill = 'log10(p-value)') +
+    scale_x_discrete(limits = llistat)
+    return(HeatMap)
+}
+
+#Així es representarien els gràfics (les mides són les que he considerat adequades per aquests resultats en concret, però es poden canviar)
+#He posat un threshold de p-valor de 0.01
+GOHeatMap(GOresultAFR, 'AFR', '#F7F14A', 0.01, height = 12, width = 18)
+GOHeatMap(GOresultEAS, 'EAS', '#33B033', 0.01, height = 10, width = 17)
+GOHeatMap(GOresultEUR, 'EUR', '#5691C4', 0.01, height = 17, width = 24)
+GOHeatMap(GOresultSAS, 'SAS', '#A965BA', 0.01, height = 10, width = 20)
+GOHeatMap(GOresultAMR, 'AMR', '#BA5852', 0.01, height = 8, width = 18)
+
