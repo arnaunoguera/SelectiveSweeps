@@ -11,6 +11,12 @@ Un arxiu de codi que es necessita executar per poder funcionar la majoria de cod
 ## AgeOfVariantsPlot
 Codis per la representació de les edats de les variants de regions del genoma especificades (iSAFE no significatiu vs. significatiu) en boxplots.
 ### - PlotGEVA.R
-Representa les variants d'UNA regió amb les edats de GEVA. Es fa l'anàlisi de la variància entre les poblacions d'una metapoblació amb Kruskal-Wallis, si és possible. 
+Representa les variants d'UNA regió amb les edats de GEVA. Es fa l'anàlisi de la variància entre les poblacions d'una metapoblació amb Kruskal-Wallis, si és possible.
+Exemple amb la regió del gen EDAR:
+![image](https://user-images.githubusercontent.com/112875889/188856645-cf53c0bd-d6ee-45ba-a078-c400641803bc.png)
+
 ### - PlotRelate.R
 Representa les variants d'UNA regió amb les edats de Relate. Es fa l'anàlisi de la variància entre les poblacions d'una metapoblació amb Kruskal-Wallis, si és possible. 
+Exemple amb la regió del gen EDAR:
+![image](https://user-images.githubusercontent.com/112875889/188856759-93ade5e1-2f95-406f-bae0-059b7a623074.png)
+
