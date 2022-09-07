@@ -20,3 +20,13 @@ Representa les variants d'UNA regió amb les edats de Relate. Es fa l'anàlisi d
 Exemple amb la regió del gen EDAR:
 ![image](https://user-images.githubusercontent.com/112875889/188856759-93ade5e1-2f95-406f-bae0-059b7a623074.png)
 
+### - PlotsGEVA.R
+Representa el mateix gràfic amb les edats de GEVA però per tantes regions com s'especifiqui (únicament regions preestablertes de PopHumanScan). Si només es diu un o diversos cromosomes, es representaran totes les regions que es puguin d'aquests cromsomes. 
+Exemple amb el cromosoma 19:
+![image](https://user-images.githubusercontent.com/112875889/188857403-b3b945a9-926f-4f42-9f0e-6913fa1a688c.png)
+
+### - PlotsRelate.R
+Representa el mateix gràfic amb les edats de Relate però per tantes regions com s'especifiqui (únicament regions preestablertes de PopHumanScan). Si només es diu un o diversos cromosomes, es representaran totes les regions que es puguin d'aquests cromsomes. 
+Exemple amb el cromosoma 19:
+![image](https://user-images.githubusercontent.com/112875889/188857565-feb574aa-0867-4e68-89b7-d6fb8d6e160d.png)
+
