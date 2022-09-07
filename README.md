@@ -30,3 +30,10 @@ Representa el mateix gràfic amb les edats de Relate però per tantes regions co
 Exemple amb el cromosoma 19:
 ![image](https://user-images.githubusercontent.com/112875889/188857565-feb574aa-0867-4e68-89b7-d6fb8d6e160d.png)
 
+## PHSRegionsAnalysis
+### - Taula_Grafics_GeneOntology.R
+
+Hi ha el codi per tot l'anàlisi efectuat a partir de les regions de PopHumanScan. De totes les variants de les taules, és la que compara les poblacions d'una metapoblació amb Kruskal-Wallis (després de fer test de Levene per demostrar que les variàncies són homogènies), per tal de comprovar que hi ha una distribució uniforme de les edats de les variants amb iSAFE significatiu entre poblacions, i així calcular l'edat estimada del sweep selectiu per cada regió si és possible. 
+També hi ha el codi per les diverses representacions, així com per l'anàlisi de Gene Ontology, tot i que l'anàlisi de Gene Ontology més complert és el que es fa per les regions de l'article d'iHS (Johnson and Voight, 2018). 
+
+
