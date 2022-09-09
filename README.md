@@ -6,7 +6,7 @@ Tots els codis estan dins de la carpeta Scripts. Cal destacar que molts dels cod
 
 ## globalFunctions.R
 Un arxiu de codi que es necessita executar per poder funcionar la majoria de codis restants. Es crida a la majoria de paquets d'R que s'utilitzen en tots els anàlisis, i es creen alguns arxius amb informació de les poblacions i les metapoblacions del 1000 Genomes Project. També es defineixen funcions per poder accedir a les taules d'SQL del servidor amb informació d'iSAFE, GEVA, etc. 
-![image](https://user-images.githubusercontent.com/112875889/189361031-02aa3fdc-7c91-414c-86fa-f8ff37d9482e.png)
+![image](https://user-images.githubusercontent.com/112875889/189361212-44adb544-e403-465c-899d-41f7e14c8e72.png)
 
 ## AgeOfVariantsPlot
 Codis per la representació de les edats de les variants de regions del genoma especificades (iSAFE no significatiu vs. significatiu) en boxplots.
