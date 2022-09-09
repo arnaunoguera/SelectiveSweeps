@@ -4,7 +4,7 @@ Exemple de part de la taula obtinguda
 ![image](https://user-images.githubusercontent.com/112875889/188860832-68a8ba58-152a-49bb-8c29-a9d3e11269e0.png)
 
 ### Representació de les desviacions típiques en l'estima de l'edat dels sweeps selectius
-El gràfic està fent zoom a la part de baix de la distribució per beure-ho bé
+El gràfic està fent zoom a la part de baix de la distribució una millor observació
 ![image](https://user-images.githubusercontent.com/112875889/188860921-9f9abf7e-b670-4eb0-8ff4-e284b3ac0fea.png)
 
 ### Representació de les edats detectades
