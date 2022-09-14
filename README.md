@@ -18,7 +18,7 @@ Exemple amb la regió del gen EDAR:
 ### - PlotRelate.R
 Representa les variants d'UNA regió amb les edats de Relate. Es fa l'anàlisi de la variància entre les poblacions d'una metapoblació amb Kruskal-Wallis, si és possible. 
 Exemple amb la regió del gen EDAR:
-![image](https://user-images.githubusercontent.com/112875889/188856759-93ade5e1-2f95-406f-bae0-059b7a623074.png)
+![image](https://user-images.githubusercontent.com/112875889/190110425-be2012b4-9cc0-45dd-95c1-274d3261f056.png)
 
 ### - PlotsGEVA.R
 Representa el mateix gràfic amb les edats de GEVA però per tantes regions com s'especifiqui (únicament regions preestablertes de PopHumanScan). Si només es diu un o diversos cromosomes, es representaran totes les regions que es puguin d'aquests cromsomes. 
