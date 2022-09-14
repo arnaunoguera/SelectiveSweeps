@@ -92,7 +92,7 @@ diferencia_edats <- function(chr, inici, final, pop_color = popPal,
     options(repr.plot.width = 20, repr.plot.height = 10, warn = 1)
     grafic <- merged %>% arrange(pop) %>% arrange(metapop) %>%
         ggplot(mapping = aes(x=factor(pop, levels=unique(pop)), y=age/1000, fill=pop, color = grup, alpha = grup, by = metapop)) +
-        geom_boxplot() + scale_color_manual(values = c('black','#6b0000'), name= 'iSAFE') + scale_alpha_manual(values = c(0.35, 1), name= 'iSAFE') +
+        geom_boxplot() + scale_color_manual(values = c('gray','#6b0000'), name= 'iSAFE') + scale_alpha_manual(values = c(0.35, 1), name= 'iSAFE') +
         scale_fill_manual(values = pop_color, breaks = names(pop_color), name = 'Population') +
         labs(x='', y='Estimated variant age (thousands of generations)', title = paste0('Chr ', chr, ': ', inici, '-', final)) +
         geom_signif(comparisons = comparisons_list, annotations = annotations_vector, textsize = 7, color = 'black', alpha = 1) + theme(text = element_text(size = 20))
