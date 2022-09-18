@@ -4,7 +4,7 @@
 #Dins de les variants amb iSAFE significatiu, s'escullen les 15 amb iSAFE superior i es descarten la resta. Aquest número es pot canviar (p. ex.: 5). 
 #Compara la distribució d'edats de les variants significatives de les poblacions d'una metapoblació amb un test de Kruskal-Wallis i en representa el p-valor.
 
-
+ 
 ###Gràfic per plotejar una regió concreta on es mira si l'edat estimada de les variants amb iSAFE significatiu és coherent entre les poblacions d'una metapoblació AMB KRUSKAL-WILLIS i LEVENE
 
 diferencia_edats <- function(chrom, inici, final, pop_color = popPal, 
