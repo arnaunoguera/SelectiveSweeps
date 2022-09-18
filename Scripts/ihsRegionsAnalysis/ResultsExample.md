@@ -1,6 +1,6 @@
 # Anàlisi de les regions descrites a l'article d'iHS
 
-Exemple de part de la taula obtinguda
+Exemple de part de la taula obtinguda 
 ![image](https://user-images.githubusercontent.com/112875889/188860832-68a8ba58-152a-49bb-8c29-a9d3e11269e0.png)
 
 ### Representació de les desviacions típiques en l'estima de l'edat dels sweeps selectius
