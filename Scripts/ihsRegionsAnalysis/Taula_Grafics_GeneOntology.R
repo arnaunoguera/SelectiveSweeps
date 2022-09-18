@@ -4,7 +4,7 @@
 #Es necessita la taula de les regions i les taules de Relate (les dues estan amb el path al meu usuari del servidor) i accès a les dades d'iSAFE el servidor
 
 #################################################################################
-##################### Creació de la taula #######################################
+##################### Creació de la taula ####################################### 
 #################################################################################
 
 #Aquesta funció et retorna la taula desitjada on es dona l'edat estimada del sweep selectiu de cada regió, FILTRANT LES 5 VARIANTS AMB MAJOR ISAFE A CADA POBLACIÓ
