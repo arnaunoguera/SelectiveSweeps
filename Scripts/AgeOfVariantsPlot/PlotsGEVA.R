@@ -14,7 +14,7 @@ agemode_isafe_plot <- function(chrom = NA, inicis = NA, finals = NA, PHS, pop_co
             #No s'ha d'especificar a quin cromosoma pertany una posició d'inici 
             PHS <- PHS %>% filter(start %in% inicis & end %in% finals)
         }
-    }
+    } 
     #Creo una data table buida
     taula <- data.table()
     #Es repeteix per cada registre de PHS que quedi després de filtrar els desitjats
