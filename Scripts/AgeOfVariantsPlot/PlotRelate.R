@@ -4,7 +4,7 @@
 #Dins de les variants amb iSAFE significatiu, s'escullen les 15 amb iSAFE superior i es descarten la resta. Aquest número es pot canviar (p. ex.: 5) a nvar. 
 #Compara la distribució d'edats de les variants significatives de les poblacions d'una metapoblació amb un test de Kruskal-Wallis i en representa el p-valor.
 
-
+ 
 diferencia_edats <- function(chr, inici, final, pop_color = popPal, 
                              AFR = AFRpops, EAS = EASpops, EUR = EURpops, SAS = SASpops, AMR = TRUE, nvar = 15) {
     library(ggsignif)
