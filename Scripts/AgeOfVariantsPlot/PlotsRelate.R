@@ -1,5 +1,5 @@
 ####Gràfic de les edats estimades de variants amb iSAFE significatiu vs no significatiu amb edats de Relate per les regions de PopHumanScan indicades
-#Fan falta els fitxers de les edats de Relate (el path està al meu usuari del servidor) i accedir a les taules del servidor i a la taula de PopHumanScan
+#Fan falta els fitxers de les edats de Relate (el path està al meu usuari del servidor) i accedir a les taules del servidor i a la taula de PopHumanScan 
 #S'introdueixen els inicis i finals com a dos vectors, de forma que el primer valor d'inicis es correspon al primer de finals;
 #i length(inicis)=length(finals). El vector de cromosomes no ha de ser de la mateixa longitud: un cop per chr és suficient. 
 #Es considera significant un valor d'iSAFE > 0.1
