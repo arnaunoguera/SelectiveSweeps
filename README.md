@@ -50,3 +50,6 @@ Per cada regió, s'utilitzen les 5 variants amb iSAFE més elevat per estimar l'
 ### - ResultsExample.md
 Exemple dels resultats obtinguts al portar a terme aquest anàlisis, amb les imatges obtingudes per clarificar l'explicació. 
 ![image](https://user-images.githubusercontent.com/112875889/188861981-5a742286-7d18-403d-aebf-5a0ab9bf57c5.png)
+
+### - UnfilteredResultsExample.md
+Exemple dels resultats obtinguts amb l'anàlisi d'enriquiment abans d'aplicar els filtres per eliminar els resultats causats per clústers de gens. A més, s'expliquen alguns resultats que s'ha comprovat manualment que són causats per un clúster de gens en una sola regió. 
