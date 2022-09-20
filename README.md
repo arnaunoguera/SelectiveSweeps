@@ -47,12 +47,12 @@ Aquest codi serveix per analitzar amb més profunditat les regions de PopHumanSc
 S'efectua un anàlisi molt similar al de les regions de PopHumanScan, però partint de les regions descrites en l'article de Johnson i Voight (2018). Alguns processos són lleugerament diferents, ja que en aquest cas, les regions candidates de selecció natural s'han identificat per a una població determinada, i per tant no té sentit fer comparacions entre les diferents poblacions. La distribució i la generació de les taules és relativament diferent, però l'anàlisi en sí és anàleg. 
 Per cada regió, s'utilitzen les 5 variants amb iSAFE més elevat per estimar l'edat de l'esdeveniment de selecció, i es classifiquen les regions en intervals de 1000 generacions per fer l'anàlisi de Gene Ontology. Es filtren els resultats de Gene Ontology causats per clusters de gens amb funcions relacionades en una mateixa regió, que són la majoria, per obtenir resultats causats per gens independents.
 
-### - ResultsExample.md
+# ResultsExample.md
 Exemple dels resultats obtinguts al portar a terme aquest anàlisis, amb les imatges obtingudes per clarificar l'explicació. 
 ![image](https://user-images.githubusercontent.com/112875889/188861981-5a742286-7d18-403d-aebf-5a0ab9bf57c5.png)
 
-### - UnfilteredResultsExample.md
+# UnfilteredResultsExample.md
 Exemple dels resultats obtinguts amb l'anàlisi d'enriquiment abans d'aplicar els filtres per eliminar els resultats causats per clústers de gens. A més, s'expliquen alguns resultats que s'ha comprovat manualment que són causats per un clúster de gens en una sola regió. 
 
-### - SweepAgeCheck.md
+# SweepAgeCheck.md
 Exemples de la comprovació de l'estima de l'edat dels sweeps selectius que faig. S'utilitzen 3 esdeveniments de selecció natural en humans ben caracteritzats on es coneixen les mutacions causals: els del gen LAC, EDAR i SLC24A5.
