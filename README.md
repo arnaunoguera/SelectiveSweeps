@@ -53,3 +53,6 @@ Exemple dels resultats obtinguts al portar a terme aquest anàlisis, amb les ima
 
 ### - UnfilteredResultsExample.md
 Exemple dels resultats obtinguts amb l'anàlisi d'enriquiment abans d'aplicar els filtres per eliminar els resultats causats per clústers de gens. A més, s'expliquen alguns resultats que s'ha comprovat manualment que són causats per un clúster de gens en una sola regió. 
+
+### - SweepAgeCheck.md
+Exemples de la comprovació de l'estima de l'edat dels sweeps selectius que faig. S'utilitzen 3 esdeveniments de selecció natural en humans ben caracteritzats on es coneixen les mutacions causals: els del gen LAC, EDAR i SLC24A5.
